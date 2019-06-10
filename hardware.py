@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
-import sqlite3 as sql
+import mysql.connector as sql
 import time
 import random
+import configparser
 application = Flask(__name__)
 
 
@@ -12,7 +13,16 @@ def slow_process_to_calculate_availability(provider, name):
 
 @application.route('/hardware/')
 def hardware():
-    con = sql.connect('database.db')
+    config = configparser.ConfigParser()
+    config.read('mysql.conf')
+
+    con = sql.connect(
+      host=config['MYSQL']["host"],
+      user=config['MYSQL']["user"],
+      database=config['MYSQL']['db'],
+      passwd=config['MYSQL']["passwd"]
+    )
+
     c = con.cursor()
 
     statuses = [

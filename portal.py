@@ -1,4 +1,5 @@
 from flask import Flask, request
+from waitress import serve
 import requests
 application = Flask(__name__)
 
@@ -15,4 +16,4 @@ def dashboard():
 
 
 if __name__ == "__main__":
-    application.run(host='0.0.0.0', port=5000)
+    serve(application)
