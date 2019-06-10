@@ -1,8 +1,6 @@
 from flask import Flask, request
-from waitress import serve
 import requests
 application = Flask(__name__)
-
 
 @application.route('/')
 def dashboard():
@@ -11,9 +9,8 @@ def dashboard():
         '{} - {}: {}'.format(r['provider'], r['name'], r['availability'])
         for r in result
     ]
-
     return '<br>'.join(hardware)
 
 
 if __name__ == "__main__":
-    serve(application)
+    application.run(host='0.0.0.0', port=5000)
